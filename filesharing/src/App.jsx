@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import './App.css';
 import { uploadFile } from './services/api';
 
@@ -8,15 +9,13 @@ function App() {
 
   const fileInputRef = useRef();
 
-  const url = 'https://i.pinimg.com/originals/16/46/24/1646243661201a0892cc4b1a64fcbacf.jpg';
-
   useEffect(() => {
     const getImage = async () => {
       if (file) {
         const data = new FormData();
         data.append("name", file.name);
         data.append("file", file);
-    
+
         try {
           const response = await uploadFile(data);
           if (response && response.path) {
@@ -29,29 +28,51 @@ function App() {
         }
       }
     };
-    
+
     getImage();
-  }, [file])
+  }, [file]);
 
   const onUploadClick = () => {
     fileInputRef.current.click();
-  }
+  };
 
   return (
-    <div className='container'>
-      <img src={url} className='img' />
-      <div className='wrapper'>
-        <h1>Simple file sharing!</h1>
-        <p>Upload and share the download link.</p>
-        
-        <button onClick={() => onUploadClick()}>Upload</button>
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          onChange={(e) => setFile(e.target.files[0])}
-        />
+    
+    <div className="container">
+      
+      <header className="app-header">
+        <h1> SnapDrop</h1>
+      </header>
 
+
+      {/* Floating Background Objects */}
+      <div className="floating-object obj1"></div>
+      <div className="floating-object obj2"></div>
+      <div className="floating-object obj3"></div>
+
+      <motion.div
+        className="circle-container"
+        onClick={onUploadClick}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <div className="animated-ring"></div>
+        <div className="circle-content">
+          <h2>Upload Files</h2>
+          <p>Click Here</p>
+        </div>
+      </motion.div>
+
+      <motion.button
+        className="upload-folder-btn"
+        onClick={onUploadClick}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        Upload Folder →
+      </motion.button>
+
+      <div className="status">
         {result ? (
           <p>
             Ready! Share this link: <a href={result} target="_blank" rel="noopener noreferrer">{result}</a>
@@ -59,7 +80,14 @@ function App() {
         ) : (
           <p>Select a file to upload</p>
         )}
-    </div>
+      </div>
+
+      <input
+        type="file"
+        ref={fileInputRef}
+        style={{ display: "none" }}
+        onChange={(e) => setFile(e.target.files[0])}
+      />
     </div>
   );
 }
