@@ -10,7 +10,7 @@ export const uploadImage = async (req, res) => {
     const files = await file.create(fileObj);
     console.log(files);
     // res.status(201).json({path:"http://localhost:3000/"+"file/"+files._id});
-    res.status(201).json({path:"https://sharing-app-r5f5.onrender.com"+"file/"+files._id});
+    res.status(201).json({path:"https://sharing-app-r5f5.onrender.com/"+"file/"+files._id});
 
   } catch (error) {
     console.log(error);
