@@ -9,7 +9,9 @@ export const uploadImage = async (req, res) => {
   try {
     const files = await file.create(fileObj);
     console.log(files);
-    res.status(201).json({path:"http://localhost:3000/"+"file/"+files._id});
+    // res.status(201).json({path:"http://localhost:3000/"+"file/"+files._id});
+    res.status(201).json({path:"https://sharing-app-r5f5.onrender.com"+"file/"+files._id});
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Failed to upload file" });
